@@ -1,0 +1,40 @@
+<html>
+    <link rel="stylesheet" href="popup.css">
+    <body>
+        <div id="search-page">
+           <button id="settings">Settings</button>
+           <h1>Hello, Search a Word/Phrase</h1>
+           <div id="searchbox">
+              <input id="wordinput" type="text" placeholder="Enter a Word">
+              <button id="searchButton">Search</button>
+           </div>
+              <p id="result"></p> 
+        </div>
+        <div id="settings-page">
+            <button id="back-settings">Back</button>
+            <h1>Settings</h1>
+            <button id="saved-words">Saved Words</button>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span>Dark Mode</span>
+            </label>
+            <label class="switch">
+                <input type="checkbox" id="master-switch">
+                <span>Extension</span>
+            </label>
+
+        </div>
+        <div id="saved-words-page">
+        <button id="back-saved">Back</button>
+        <button id="delete-all">Delete All</button>
+            <h1>Saved Words</h1>
+        <div id="saved-words-list">
+
+        </div>
+
+        </div>
+            
+
+        <script src="popup.js"></script>
+    </body>
+</html>
