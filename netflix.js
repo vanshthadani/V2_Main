@@ -1,5 +1,28 @@
 console.log("Netflix Module Loaded")
 
+// --- add near the top, with your other state variables ---
+let videoWasPlaying = false;
+
+function getVideoElement() {
+    return document.querySelector("video");
+}
+
+function pauseVideoForHighlight() {
+    const video = getVideoElement();
+    if (video && !video.paused) {
+        video.pause();
+        videoWasPlaying = true;
+    }
+}
+
+function resumeVideoIfNeeded() {
+    const video = getVideoElement();
+    if (video && videoWasPlaying) {
+        video.play();
+        videoWasPlaying = false;
+    }
+}
+
 async function updateNFButton() {
     const enabled = await isExtensionEnabled();
 
@@ -25,9 +48,11 @@ nfpopup.style.display = "none"
 nfbutton.addEventListener("click", () => {
     if(nfpopup.style.display === "none"){
         nfpopup.style.display = "block"
+        pauseVideoForHighlight()
     }
     else{
         nfpopup.style.display = "none"
+        resumeVideoIfNeeded()
     }
 })
 let nflastRenderedSubtitle;

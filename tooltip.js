@@ -3,6 +3,8 @@ const tooltip = document.createElement("div")
 tooltip.id = "tooltip"
 document.body.appendChild(tooltip)
 tooltip.style.display = "none";
+tooltip.style.width = "320px";      
+tooltip.style.maxWidth = "90vw";    
 
 const result = document.createElement("div")
 result.className = "result"

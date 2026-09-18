@@ -9,6 +9,19 @@ settingspage.style.display = "none"
 savedwordspage.style.display = "none"
 const settingsbutton = document.getElementById("settings")
 
+const languageSelect = document.getElementById("languageSelect");
+
+languageSelect.addEventListener("change", async () => {
+
+    const selectedLanguage = languageSelect.value;
+
+    await chrome.storage.local.set({
+        explanationLanguage: selectedLanguage
+    });
+
+    console.log("Explanation language saved:", selectedLanguage);
+});
+
 
 const context = "No Context Here, User Manually Searched for the word/phrase"
 
@@ -209,7 +222,7 @@ darkModeToggle.addEventListener("change", async () => {
 
 async function loadSettings() {
 
-    const settings = await chrome.storage.local.get("darkMode");
+    const settings = await chrome.storage.local.get(["darkMode", "explanationLanguage"]);
 
     console.log("Storage returned:", settings);
 
@@ -220,6 +233,12 @@ async function loadSettings() {
     document.body.classList.toggle("dark-mode", isDark);
 
     console.log("Dark mode loaded:", isDark);
+
+    const savedLanguage = settings.explanationLanguage ?? "en";
+
+    languageSelect.value = savedLanguage;
+
+    console.log("Explanation language loaded:", savedLanguage);
 }
 
 
@@ -327,3 +346,4 @@ async function saveWord(word, dataset, explaination){
     console.log("saved")
     return "saved"
 }
+

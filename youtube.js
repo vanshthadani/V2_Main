@@ -1,6 +1,42 @@
 console.log("Youtube Module Loaded")
 const ytenabled = isExtensionEnabled()
 
+// --- add near the top, with your other state variables ---
+let videoWasPlaying = false;
+
+function getVideoElement() {
+    return document.querySelector("video.html5-main-video") || document.querySelector("video");
+}
+
+function pauseVideoForHighlight() {
+    const video = getVideoElement();
+    if (video && !video.paused) {
+        video.pause();
+        videoWasPlaying = true;
+    }
+}
+
+function resumeVideoIfNeeded() {
+    const video = getVideoElement();
+    if (video && videoWasPlaying) {
+        video.play();
+        videoWasPlaying = false;
+    }
+}
+
+// --- resume triggers: mirrors content.js's tooltip-close conditions ---
+document.addEventListener("mousedown", (event) => {
+    if (!event.target.closest("#tooltip") && !event.target.closest(".yt-popup")) {
+        resumeVideoIfNeeded();
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        resumeVideoIfNeeded();
+    }
+});
+
 async function updateYtButton() {
     const enabled = await isExtensionEnabled();
 
@@ -25,9 +61,11 @@ popup.style.display = "none"
 button.addEventListener("click", () => {
     if(popup.style.display === "none"){
         popup.style.display = "block"
+        pauseVideoForHighlight()
     }
     else{
         popup.style.display = "none"
+        resumeVideoIfNeeded()
     }
 })
 let lastRenderedSubtitle;
@@ -63,6 +101,7 @@ function displaySentence(subtitles){
 popup.addEventListener("click", (event) => {
     if (!event.target.classList.contains("yt-word"))
         return;
+
     showLoader(event.target)
     const word = event.target.innerText.trim()
     console.log("word clicked : ", word)
