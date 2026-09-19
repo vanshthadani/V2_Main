@@ -53,4 +53,4 @@ The extension is pre-configured to talk to a hosted backend instance. If you're 
 ## Notes
 
 - UI labels (e.g. "Simple Explanation") stay in English by design, since the tool is aimed at English learners — only the AI-generated explanation content is localized to the selected language.
-- The extension requests broad `<all_urls>` access since highlighting works on any page — no data is collected or stored beyond what's needed to generate an explanation (see backend repo for details on what's sent).
+- The extension requests broad `<all_urls>` access since highlighting works on any page — no data is collected or stored beyond what's needed to generate an explanation.
