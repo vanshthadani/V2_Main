@@ -581,3 +581,69 @@ body.dark-mode #wordinput::placeholder {
     align-items: center;
     gap: 3px;
 }
+
+/* =========================================================
+   SELECT ROW (matches .switch styling)
+   ========================================================= */
+
+.select-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 48px;
+    margin-top: 11px;
+    padding: 13px 14px;
+
+    color: var(--text);
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    transition: 0.2s ease;
+}
+
+.select-row span {
+    font-weight: 650;
+}
+
+.select-row select {
+    padding: 6px 10px;
+
+    color: var(--text);
+    background: var(--surface-hover);
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.select-row select:hover {
+    border-color: var(--accent);
+}
+
+.select-row select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+body.dark-mode .select-row {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+body.dark-mode .select-row select {
+    color: var(--text);
+    background: var(--surface-hover);
+    border-color: var(--border);
+}
