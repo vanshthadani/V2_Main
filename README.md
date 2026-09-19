@@ -48,7 +48,7 @@ This repo is the browser extension (content scripts + popup UI). It talks to a s
 4. Click **Load unpacked** and select this repo's folder.
 5. The extension icon should appear in your toolbar.
 
-The extension is pre-configured to talk to a hosted backend instance. If you're running your own backend (see [V2_Backend](https://github.com/vanshthadani/V2_Backend)), update the backend URL in `background.js` and `dict.js` to point to your instance, and match the `x-extension-secret` header value to your backend's `EXTENSION_SECRET`.
+The extension is pre-configured to talk to a hosted backend instance. 
 
 ## Notes
 
