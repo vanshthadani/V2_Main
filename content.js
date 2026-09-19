@@ -1,4 +1,3 @@
-console.log("Content Script Loaded!");
 
 let sentence = "";
 
@@ -68,10 +67,10 @@ document.addEventListener("mouseup", async function (event) {
                 : undefined;
             const receivedAi = response.explanation.data;
 
-            setTimeout(() => {
+            
                 hideLoader();
                 showToolTip(word, receivedWord, receivedAi, range);
-            }, 1000);
+            
 
             selection.removeAllRanges();
         }

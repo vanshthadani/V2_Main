@@ -1,4 +1,3 @@
-console.log("Tooltip Loaded");
 
 const tooltip = document.createElement("div");
 tooltip.id = "tooltip";
@@ -79,11 +78,21 @@ async function showToolTip(word, dataset, explanation, target) {
         <div class="ai-content">${explanation.example}</div>
     </div>`;
 
-    if (dataset && dataset.length > 0) {
-    for (const entry of dataset) {
-        html += `<div class="partOfSpeech">PART OF SPEECH:<br>${entry.partOfSpeech.toUpperCase()}</div><br>`;
+ if (dataset && dataset.length > 0) {
+    const grouped = {};
 
-        entry.definitions.forEach((definition, i) => {
+    for (const entry of dataset) {
+        const pos = entry.partOfSpeech || "unknown";
+        if (!grouped[pos]) {
+            grouped[pos] = [];
+        }
+        grouped[pos].push(...entry.definitions);
+    }
+
+    for (const pos in grouped) {
+        html += `<div class="partOfSpeech">PART OF SPEECH:<br>${pos.toUpperCase()}</div><br>`;
+
+        grouped[pos].forEach((definition, i) => {
             html += `<div class="meaning">Definition ${i + 1}<br>${definition}</div><br>`;
         });
     }

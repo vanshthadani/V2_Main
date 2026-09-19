@@ -1,4 +1,3 @@
-console.log("Netflix Module Loaded");
 
 const nfbutton = document.createElement("button");
 nfbutton.className = "nf-button";

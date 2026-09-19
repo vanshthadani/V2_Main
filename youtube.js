@@ -1,4 +1,3 @@
-console.log("Youtube Module Loaded");
 
 const button = document.createElement("button");
 button.className = "yt-button";

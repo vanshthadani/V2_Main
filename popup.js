@@ -26,14 +26,22 @@ function showPage(page) {
     page.style.display = "block";
 }
 
-// ---- Settings: language ----
+
 languageSelect.addEventListener("change", async () => {
     await chrome.storage.local.set({
         explanationLanguage: languageSelect.value
     });
 });
 
-// ---- Settings: master switch ----
+const lengthSelect = document.getElementById("lengthSelect");
+
+lengthSelect.addEventListener("change", async () => {
+    await chrome.storage.local.set({
+        explanationLength: lengthSelect.value
+    });
+});
+
+
 masterSwitch.addEventListener("change", async () => {
     await chrome.storage.local.set({
         master: masterSwitch.checked
@@ -53,13 +61,14 @@ darkModeToggle.addEventListener("change", async () => {
 });
 
 async function loadSettings() {
-    const settings = await chrome.storage.local.get(["darkMode", "explanationLanguage"]);
+    const settings = await chrome.storage.local.get(["darkMode", "explanationLanguage", "explanationLength"]);
 
     const isDark = settings.darkMode ?? false;
     darkModeToggle.checked = isDark;
     document.body.classList.toggle("dark-mode", isDark);
 
     languageSelect.value = settings.explanationLanguage ?? "en";
+    lengthSelect.value = settings.explanationLength ?? "medium";
 }
 
 loadMasterSwitch();
@@ -189,11 +198,21 @@ async function renderResult(word, dataset, explanation) {
         <div class="ai-content">${explanation.example}</div>
     </div>`;
 
-    if (dataset && dataset.length > 0) {
-    for (const entry of dataset) {
-        html += `<div class="partOfSpeech">PART OF SPEECH:<br>${entry.partOfSpeech.toUpperCase()}</div><br>`;
+   if (dataset && dataset.length > 0) {
+    const grouped = {};
 
-        entry.definitions.forEach((definition, i) => {
+    for (const entry of dataset) {
+        const pos = entry.partOfSpeech || "unknown";
+        if (!grouped[pos]) {
+            grouped[pos] = [];
+        }
+        grouped[pos].push(...entry.definitions);
+    }
+
+    for (const pos in grouped) {
+        html += `<div class="partOfSpeech">PART OF SPEECH:<br>${pos.toUpperCase()}</div><br>`;
+
+        grouped[pos].forEach((definition, i) => {
             html += `<div class="meaning">Definition ${i + 1}<br>${definition}</div><br>`;
         });
     }

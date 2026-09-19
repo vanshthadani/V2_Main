@@ -11,30 +11,19 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             const langSetting = await chrome.storage.local.get("explanationLanguage");
             const language = langSetting.explanationLanguage || "en";
 
-            console.time("dict-api")
-
-            const data = await getMeaning(word);
-
-            console.timeEnd("dict-api")
-
-
-            console.time("backend-call")
-            const explanationResponse = await fetch(
-                "https://v2-backend-lg7i.onrender.com/explain",
-                {
+            const lengthSetting = await chrome.storage.local.get("explanationLength");
+            const length = lengthSetting.explanationLength || "medium";
+            const [data, explanationResponse] = await Promise.all([
+                getMeaning(word),
+                fetch("https://v2-backend-lg7i.onrender.com/explain", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "x-extension-secret": "32dc373254f91fd75ac89f857eb2eef3"
                     },
-                    body: JSON.stringify({
-                        word: word,
-                        context: sentence,
-                        isPhrase: isPhrase,
-                        language: language
-                    })
-                }
-            );
+                    body: JSON.stringify({ word, context: sentence, isPhrase, language , length})
+                })
+            ]);
             console.timeEnd("backend-call")
 
             const explanation = await explanationResponse.json();
